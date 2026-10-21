@@ -140,6 +140,16 @@ test("AI entries render into the buckets with static evidence kept", async () =>
   }
 });
 
+test("AI JSON parsing tolerates code fences and surrounding prose", async () => {
+  const { parseModelJson } = await import("../lib/ai.mjs");
+  const obj = { overview: "x", breaking: [] };
+  assert.deepEqual(parseModelJson(JSON.stringify(obj)), obj);
+  assert.deepEqual(parseModelJson("```json\n" + JSON.stringify(obj, null, 2) + "\n```"), obj);
+  assert.deepEqual(parseModelJson("```\n" + JSON.stringify(obj) + "\n```\n"), obj);
+  assert.deepEqual(parseModelJson("Here is the changelog:\n" + JSON.stringify(obj) + "\nDone."), obj);
+  assert.throws(() => parseModelJson("```json\n{ not json\n```"), /wasn't valid JSON/);
+});
+
 test("symbol diff distinguishes compatible extensions from breaking changes", () => {
   assert.ok(isCompatibleExtension("f(a)", "f(a, b = 1)"));
   assert.ok(isCompatibleExtension("def f(self)", "def f(self, x=None)"));
