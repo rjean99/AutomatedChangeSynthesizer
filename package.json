@@ -1,0 +1,19 @@
+{
+  "name": "prnotes",
+  "version": "2.0.0",
+  "description": "Automated PR / release note synthesizer: categorized, code-aware Markdown changelogs from git diffs",
+  "type": "module",
+  "bin": {
+    "prnotes": "./bin/prnotes.mjs"
+  },
+  "scripts": {
+    "test": "node --test test/prnotes.test.mjs"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "optionalDependencies": {
+    "@anthropic-ai/sdk": "*"
+  },
+  "license": "MIT"
+}
